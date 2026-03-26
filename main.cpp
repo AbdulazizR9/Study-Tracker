@@ -108,7 +108,7 @@ void addTask(string& title){
     newTask.status = "todo";
     Tasks.push_back(newTask);
 }
-void deleteTask(string& title){ // needs rebuilding
+void deleteTask(string& title){
     for (int i = 0; i < Tasks.size(); i++){
         if (title == Tasks[i].title){
             Tasks.erase(Tasks.begin() + i);
@@ -137,12 +137,19 @@ void updateTaskS(string& title, string& status){
     }
 }
 void listTasks(){
+
+    for (int i = 0; i < Tasks.size(); i++){
+        cout << "Task №" << Tasks[i].id << ", title: " << Tasks[i].title << ", description: " << Tasks[i].description << ", status: " << Tasks[i].status << ".\n";
+    }
+
+    /*
     ifstream file("data.txt");
     string line;
     while (getline(file, line)){
         cout << line << "\n";
     }
     file.close();
+    */
 }
 void uploadTasks(){
     ifstream file("data.txt");
@@ -172,7 +179,7 @@ void uploadTasks(){
 }
 
 void saveTasks(){
-    ofstream file("data.txt", ios::app);
+    ofstream file("data.txt");
     for (int i = 0; i < Tasks.size(); i++){
         file << Tasks[i].id << "|" << Tasks[i].title << "|" << Tasks[i].description << "|" << Tasks[i].status << "\n";
     }
