@@ -31,11 +31,12 @@ struct Task {
 
 vector<Task> Tasks;
 
-void addTask(const string& title){}
+void addTask(){}
 void deleteTask(){}
 void updateTask(){}
 void listTasks(){}
 void saveTasks(){}
+void uploadTasks(){}
 int getId(){}
 
 int main(int argc, const char* argv[]){
@@ -89,10 +90,43 @@ void listTasks(){
     }
     file.close();
 }
+void uploadTasks(){
+    ifstream file("data.txt");
+    string line;
+    while(getline(file, line)){
+        Task newTask;
+
+        auto p = line.find("|");
+        string ID = line.substr(0, p);
+        line = line.substr(p + 1);
+        p = line.find("|");
+        string T = line.substr(0, p);
+        line = line.substr(p + 1);
+        p = line.find("|");
+        string D = line.substr(0, p);
+        line = line.substr(p + 1);
+        p = line.find("|");
+        string S = line.substr(0, p);
+
+        newTask.id = stoi(ID);
+        newTask.title = T;
+        newTask.description = D;
+        newTask.status = S;
+        Tasks.push_back(newTask);
+    }
+    file.close();
+}
 void saveTasks(){
     ofstream file("data.txt", ios::app);
     for (int i = 0; i < Tasks.size(); i++){
         file << Tasks[i].id << "|" << Tasks[i].title << "|" << Tasks[i].description << "|" << Tasks[i].status << "\n";
     }
     file.close();
+}
+int getId(){
+    int id = 0;
+    if (!Tasks.empty()){
+        id = Tasks[Tasks.size() - 1].id + 1;
+    }
+    return id;
 }
